@@ -1,0 +1,69 @@
+FRE6233 Option Pricing and Stochastic Calculus
+ 	 
+Professor	Keith A. Lewis
+Course	FRE-GY 6233
+When	Thursday, 6pm-8:30pm
+Where	Rogers Hall, Room 304 Loc: Brooklyn Campus 
+Contact	kal12@nyu.edu
+Phone	646-662-7113
+Office hours	Thursday, 5pm-6pm, in Rm 304 or by appointment
+Pre-requisite	FRE 6083
+Grader	Xiao Lou <xl2434@nyu.edu>
+Syllabus and course material based on notes graciously provided of Professor Agnes Tourin.
+
+
+This course provides the mathematical foundations of Option Pricing models. The techniques covered include arithmetic and geometric Brownian motion, first passage 
+time, the reflection principle, the stochastic Ito integral, Ito differential Calculus, change of probability measure, martingales, Stochastic Differential Equations 
+and Partial Differential Equations. Some of the pricing models considered are the European, Barrier, Asian and American options. These problems are either solved 
+analytically by the martingale or Partial Differential Equations approach, or numerically, by applying approximation and simulation methods. Since the same techniques 
+allow the treatment of more complex financial products, several advanced examples will be also presented.
+
+
+Course Objectives
+After taking this course, the students will be able to price any derivative security. This is a first course in Mathematical Finance and is a building block for 
+more advanced courses. The material taught is part of the common knowledge shared by quants in the Financial industry and taking this course will prepare the 
+students to apply for quantitative positions. This course also prepares the students who wish to apply to a Ph.D. program in Financial Engineering, Mathematical 
+Finance, Operations Research, or Finance.
+
+
+Additional Resources (optional)
+A Primer for the Mathematics of Financial Engineering, Dan Stefanica, Second Edition, 2011, FE Press New York.
+Monte Carlo Methods in Financial Engineering, Paul Glasserman, 2004, Springer.
+Financial Modelling with Jump Processes, Rama Cont and Peter Tankov, 2004, Chapman & Hall/CRC.
+Computational Methods in Finance, Ali Hirsa, 2013, Chapman & Hall/CRC.
+Introduction to Mathematical Finance, Discrete Time Models, Stanley R. Pliska, 1997, Blackwell Publishing.
+Stochastic Differential Equations: An introduction with Applications, Bernt Oksendal, Universitext, Third Printing, Sixth Edition, 2009, Springer.
+Probability Essentials, Jean Jacod and Philip Protter, Universitext, Second Printing, Second Edition, 2004, Springer.
+Numerical Partial Differential Equations: Finite Difference Methods, J.W. Thomas, Texts in Applied Mathematics, 22, 1995, Springer.
+
+
+Recommended software for the homework:
+Students are expected to be familiar with a programming language such as Python, Matlab, or R. We will use a simple subset of modern C++ to create Excel add-ins.
+
+
+Course requirements:
+Students are expected to attend classes and participate actively. They should view read the textbooks ahead of time and come prepared to ask questions and discuss 
+the weekly assignment.There will be weekly homework assignments and an in class final examination. Each counts for 50% of the final grade. Homework is due at the 
+beginning of each class. No late homework will be accepted. The lowest homework grade will be discarded.There will be two types of homework assignments. The first 
+type will consist of practice exercises designed to help the students assimilate the techniques taught in class and prepare them for the final. The second type will 
+consist of implementing numerical and simulation techniques, to compute option prices that cannot be computed analytically.
+
+
+Week 1. Review of Prerequisites
+Week 2. Stochastic Calculus and Partial Differential Equations
+Week 3. Fundamental Theorem of Asset Pricing
+Week 4. Black-Scholes/Merton Option Pricing
+Week 5. General Option Pricing
+Week 6. Monte Carlo Pricing
+Week 7. Software implementation.
+Week 8: Asian Options.
+Week 9. American option pricing
+Week 10. Bootstrap
+Week 11. Multidimensional market models:
+Week 12. Variance Swaps
+Week 13. Review
+
+
+
+
+

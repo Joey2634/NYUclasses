@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Keith A. Lewis">
+  <title>Normal Variates</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="math.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+    var mathElements = document.getElementsByClassName("math");
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") { katex.render(texText.data, mathElements[i], { displayMode: mathElements[i].classList.contains("display"), throwOnError: false } );
+    }}});</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css">
+</head>
+<body>
+<html><head></head><body><header id="title-block-header">
+<h1 class="title">Normal Variates</h1>
+<p class="author">Keith A. Lewis</p>
+</header>
+<p>The standard normal density function is <span class="math inline">\phi(x) = e^{-x^2/2}/\sqrt{2\pi}</span>, <span class="math inline">-\infty < x < \infty</span>.</p>
+<p><strong>Exercise</strong>. <em>Use the formula <span class="math inline">1 = \int_{-\infty}^\infty e^{-\pi x^2}\,dx</span> to show <span class="math inline">\int_{-\infty}^\infty e^{-\alpha x^2}\,dx = \sqrt{\pi/\alpha}</span></em>.</p>
+<details>
+<summary>Solution.</summary>
+Do the change of varibles making <span class="math inline">\alpha x^2 = \pi u^2</span> so <span class="math inline">x = u\sqrt{\pi/\alpha}</span>.</details>
+<p>In particular, <span class="math inline">\int_{-\infty}^\infty e^{-x^2/2}\,dx = \sqrt{2\pi}</span> so <span class="math inline">\int_{-\infty}^\infty \phi(x)\,dx = 1</span> and <span class="math inline">\phi</span> is a probability density.</p>
+<p>Every normally distributed random variable can be written as <span class="math inline">N = \mu + \sigma X</span> where <span class="math inline">X</span> is standard normal, <span class="math inline">\mu = E[N]</span> and <span class="math inline">\sigma^2 = \operatorname{Var}(N)</span>.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">E[e^N] = e^{E[N] + \operatorname{Var}(N)/2}</span></em>.</p>
+<p><em>Hint</em>. Complete the square.</p>
+<details>
+<summary>Solution.</summary>
+<span class="math display"> \begin{align*} E[e^N] &= E[e^{\mu + \sigma X}] \\ &= \int_{-\infty}^\infty e^{\mu + \sigma x} \phi(x)\,dx \\ &= \int_{-\infty}^\infty e^{\mu + \sigma x}e^{-x^2/2}\,dx/\sqrt{2\pi} \\ &= e^\mu \int_{-\infty}^\infty e^{\sigma^2/2}e^{-(x - \sigma)^2/2}\,dx/\sqrt{2\pi} \\ &= e^{\mu + \sigma^2/2} \int_{-\infty}^\infty e^{-(x - \sigma)^2/2}\,dx/\sqrt{2\pi} \\ &= e^{\mu + \sigma^2/2} \int_{-\infty}^\infty e^{-x^2/2}\,dx/\sqrt{2\pi} \\ &= e^{\mu + \sigma^2/2} \\ &= e^{E[N] + \operatorname{Var}(N)/2} \\ \end{align*} </span></details>
+<p><strong>Exercise</strong>. <em>Show if <span class="math inline">N</span> is normal then <span class="math inline">E[e^N]E[e^{-N}] = e^{\operatorname{Var}(N)}</span></em>.</p>
+<details>
+<summary>Solution</summary>
+<span class="math inline">E[e^N]E[e^{-N}] = e^{E[N] + \operatorname{Var}(N)/2} e^{E[-N] + \operatorname{Var}(-N)/2} = e^{\operatorname{Var}(N)}</span>.</details>
+<p>The <em>moment generating function</em> of a standard normal is <span class="math inline">m(s) = E[e^{sX}] = e^{s^2/2}</span> and its cumulant is <span class="math inline">κ(s) = log m(s) = s^2/2</span>.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">g\colon\boldsymbol{R}\to\boldsymbol{R}</span> is integrable and <span class="math inline">N</span> normal then <span class="math inline">E[e^N g(N)] = E[e^N] E[g(N + \operatorname{Var}(N))]</span></em>.</p>
+<details>
+<summary>Solution</summary>
+<span class="math display"> \begin{align*} E[e^N g(N)] &= E[e^{\mu + \sigma X} g(\mu + \sigma X)] \\ &= \int_{-\infty}^\infty e^{\mu + \sigma x} g(\mu + \sigma x) \phi(x)\,dx \\ &= \int_{-\infty}^\infty e^{\mu + \sigma x} g(\mu + \sigma x) e^{-x^2/2}\,dx/\sqrt{2\pi} \\ &= e^{\mu + \sigma^2/2} \int_{-\infty}^\infty g(\mu + \sigma x) e^{-(x-\sigma)^2/2}\,dx/\sqrt{2\pi} \\ &= e^{\mu + \sigma^2/2} \int_{-\infty}^\infty g(\mu + \sigma (x + \sigma)) e^{-x^2/2}\,dx/\sqrt{2\pi} \\ &= e^{\mu + \sigma^2/2} \int_{-\infty}^\infty g(\mu + \sigma x + \sigma^2) e^{-x^2/2}\,dx/\sqrt{2\pi} \\ &= E[e^N] E[g(N + \operatorname{Var}(N))] \\ \end{align*} </span></details>
+<p>We say <span class="math inline">N = (N_j)</span> are <em>jointly normal</em> if <span class="math inline">N = μ + ΣX</span> for a constant vector <span class="math inline">μ</span> and matrix <span class="math inline">Σ</span> where <span class="math inline">X = (X_k)</span> are independent standard normal random variables.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">M</span> and <span class="math inline">N</span> are jointly normal and <span class="math inline">\operatorname{Cov}(M,N) = 0</span> then <span class="math inline">M</span> and <span class="math inline">N</span> are independent</em>.</p>
+<p><em>Hint</em>. You may assume <span class="math inline">M</span> and <span class="math inline">N</span> have mean zero.</p>
+<details>
+<summary>Solution</summary>
+If <span class="math inline">M</span> and <span class="math inline">N</span> are jointly normal then <span class="math inline">M = s X</span> and <span class="math inline">N = u X + v Y</span> where <span class="math inline">X</span>, <span class="math inline">Y</span> are independent standard normal for some <span class="math inline">s, u, v\in\boldsymbol{R}</span>. Since <span class="math inline">0 = \operatorname{Cov}(M,N) = su</span> and <span class="math inline">s\not= 0</span> we have <span class="math inline">u = 0</span> so <span class="math inline">M</span> and <span class="math inline">N</span> are independent.</details>
+<p><strong>Exercise</strong>. <em>Let <span class="math inline">X</span> be standard normal and <span class="math inline">\bar{X} = X1_{|X|\le a} - X1_{|X|>a}</span>. Show <span class="math inline">\bar{X}</span> is standard normal and there exists <span class="math inline">a > 0</span> with <span class="math inline">\operatorname{Cov}(X,\bar{X}) = 0</span></em>.</p>
+<details>
+<summary>Solution</summary>
+<span class="math inline">\operatorname{Cov}(X,\bar{X}) = E[X\bar{X}] = E[X^2 1(|X| \le a)] - E[X^2 1(|X| > a)]</span>. As <span class="math inline">a</span> goes to 0 this goes to <span class="math inline">-1</span>. As <span class="math inline">a</span> goes to infinity thie goes to <span class="math inline">1</span>.</details>
+<p>If <span class="math inline">g\colon\boldsymbol{R}^n\to\boldsymbol{R}</span> and <span class="math inline">N, N_1</span>, , <span class="math inline">N_n</span> jointly normal then <span class="math display"> E[e^N g(N_1,\ldots,N_n)] = E[e^N] E[g(N_1 + \operatorname{Cov}(N, N_1),\ldots,N_n + \operatorname{Cov}(N, N_n))]. </span></p>
+<!--
+Let $I(\alpha) = \int_{-\infty}^\infty e^{-\alpha x^2}\,dx$.
+
+$I'(\alpha) = \int_{-\infty}^\infty -x^2 e^{-\alpha x^2}\,dx$.
+
+Let $u = x$ and $dv = -xe^{-\alpha x^2}\,dx$.
+
+$du = dx$, $v = e^{-\alpha x^2}/2\alpha$.
+
+$I'(\alpha) = \int_{-\infty}^\infty e^{-\alpha x^2}/2\alpha\,dx = I(\alpha)/2\alpha$.
+
+$I(\alpha) = \alpha^b$
+
+$I'(\alpha) = b\alpha^{b-1} = \alpha^b/2\alpha$ so b=1/2$. 
+
+$I(\alpha) = c/\sqrt{\alpha}$.
+--></body></html>
+</body></html>

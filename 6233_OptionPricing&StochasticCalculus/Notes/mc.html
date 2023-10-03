@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Keith A. Lewis">
+  <title>Monte Carlo</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="math.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: true
+   });
+}}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Monte Carlo</h1>
+<p class="author">Keith A. Lewis</p>
+<div class="abstract">
+<div class="abstract-title">Abstract</div>
+Integrate using random variates</div>
+</header>
+<p>The <em>Monte Carlo</em> method of evaluating integrals using random variates was invented by Stan Ulam and Nick Metropolis while working on The Manhattan Project. It is based on the facts that if <span class="math inline">U</span> is uniformly distributed on the interval <span class="math inline">[0,1]</span> then <span class="math inline">E[f(U)] = \int_0^1 f(x)\,dx</span> and if <span class="math inline">(X_j)</span> are independent, identically distributed random variables then the average <span class="math inline">(X_1 + \cdots + X_n)/n</span> tends to <span class="math inline">E[X]</span>.</p>
+<p>If <span class="math inline">F'(x) = f(x)</span> then the fundamental theorem of calculus states <span class="math inline">\int_0^1 f(x)\,dx = F(1) - F(0)</span>, however finding the anti-derivative, <span class="math inline">F</span>, of <span class="math inline">f</span> may be difficult. Monte Carlo estimates the integral by generating uniform <span class="math inline">[0,1]</span> variates <span class="math inline">u_1</span>, …, <span class="math inline">u_n</span> and computing the averages <span class="math inline">(f(u_1) + \cdots + f(u_n))/n</span>. Replacing the numerical variates <span class="math inline">(u_j)</span> by independent uniform random variables <span class="math inline">(U_j)</span> lets us draw statistical conclusions. Clearly <span class="math inline">E[\sum_1^n f(U_j)/n] = E[f(U)]</span>.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">\operatorname{Var}(\sum_1^n f(U_j)/n) = \operatorname{Var}(f(U))/n</span></em>.</p>
+<p><em>Hint</em>. If random variables <span class="math inline">X</span> and <span class="math inline">Y</span> are independent then <span class="math inline">f(X)</span> and <span class="math inline">g(Y)</span> are independent for any functions <span class="math inline">f</span> and <span class="math inline">g</span>.</p>
+<p>This is called the <em>weak law of large numbers</em> but it reveals an important general fact: <strong>when trying to estimate a random variable using <span class="math inline">n</span> samples the standard deviation is proportional to <span class="math inline">1/\sqrt{n}</span></strong>.</p>
+<p>Monte Carlo methods can be used for any random variable, not just uniform on <span class="math inline">[0,1]</span>.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">X</span> has cdf <span class="math inline">F</span> then <span class="math inline">E[g(X)] = E[g(F^{-1}(U))]</span> where <span class="math inline">U</span> is uniformly distributed on the interval <span class="math inline">[0,1]</span></em>.</p>
+<p><em>Hint</em>. Show <span class="math inline">X</span> and <span class="math inline">F^{-1}(U)</span> have the same law.</p>
+<h1 id="variance-reduction">Variance Reduction</h1>
+<p>Although variance is proportional to <span class="math inline">1/n</span> there are methods to reduce the constant of proprionality.</p>
+<h2 id="antithetic-variates">Antithetic Variates</h2>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> have the same law then <span class="math inline">E[X] = E[Y]</span> so <span class="math inline">E[(X + Y)/2] = E[X] = E[Y]</span> and <span class="math inline">\operatorname{Var}((X + Y)/2) = \operatorname{Var}(X)/4 + \operatorname{Cov}(X,Y)/2 + \operatorname{Var}(Y)/4 = \operatorname{Var}(X)/2 + \operatorname{Cov}(X,Y)/2</span>. If <span class="math inline">X = Y</span> then <span class="math inline">\operatorname{Var}((X + Y)/2) = \operatorname{Var}(X) = \operatorname{Var}(Y)</span> and if <span class="math inline">X = -Y</span> then <span class="math inline">\operatorname{Var}((X + Y)/2) = 0</span>.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">X</span> and <span class="math inline">-X</span> have the same law and <span class="math inline">\operatorname{Cov}(f(X),f(-X)) < \operatorname{Var}(f(X))</span> then <span class="math inline">\operatorname{Var}((f(X) + f(-X))/2) < \operatorname{Var}(f(X))</span></em>.</p>
+<p>The estimate of <span class="math inline">E[f(X)]</span> can be improved by averaging with the estimate of <span class="math inline">E[f(-X)]</span> if <span class="math inline">\operatorname{Cov}(f(X),f(-X)) < \operatorname{Var}(f(X))</span>.</p>
+<h3 id="black-model">Black Model</h3>
+<p>The Fischer Black model for the forward price of a stock is <span class="math inline">F_t = fe^{σB_t - σ^2t/2}</span>. The antithetic variate <span class="math inline">F^*_t = fe^{-σB_t - σ^2t/2}</span> can be used to reduce variance.</p>
+<h2 id="control-variate">Control Variate</h2>
+<p>A <em>control variate</em> for a random variable <span class="math inline">X</span> is a random variable <span class="math inline">Y</span> that is close to <span class="math inline">X</span> that has known mean and variance.</p>
+<p>If <span class="math inline">X</span> and <span class="math inline">Y</span> are any random variables with non-zero variance then <span class="math inline">E[X] = E[X - c(Y - E[Y])]</span> for any <span class="math inline">c\in\mathbf{R}</span> and <span class="math inline">\operatorname{Var}(X - c(Y - E[Y])) = \operatorname{Var}(X) - 2c\operatorname{Cov}(X, Y - E[Y]) + c^2\operatorname{Var}(Y - E[Y])</span>.</p>
+<p><strong>Exercise</strong>. <em>Show this is minimized when <span class="math inline">c = \operatorname{Cov}(X, Y)/\operatorname{Var}(Y)</span></em>.</p>
+<p><em>Hint</em>. Take the derivative with respect to <span class="math inline">c</span> and note <span class="math inline">\operatorname{Var}(Y - E[Y]) = \operatorname{Var}(Y) > 0</span>.</p>
+<p><strong>Exercise</strong>. <em>Show the miniumum is <span class="math inline">\operatorname{Var}(X) - \operatorname{Cov}(X,Y)^2/\operatorname{Var}(Y)</span></em>.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">\operatorname{Var}(X) = \operatorname{Var}(Y) = σ^2</span> and <span class="math inline">ρ</span> is the correlation of <span class="math inline">X</span> and <span class="math inline">Y</span> then <span class="math inline">\operatorname{Var}(X) - \operatorname{Cov}(X,Y)^2/\operatorname{Var}(Y) = σ^2(1 - ρ^2)</span></em>.</p>
+<p>If <span class="math inline">Y</span> is close to <span class="math inline">X</span> then <span class="math inline">\operatorname{Cov}(X,Y)</span> is positive so <span class="math inline">X - c(Y - E[Y])</span> has smaller variance than <span class="math inline">X</span> and sampling <span class="math inline">X - c(Y - E[Y])</span> would reduce the variance. Since <span class="math inline">\operatorname{Cov}(X, Y - E[Y]) = \operatorname{Cov}(X, Y)</span> and <span class="math inline">\operatorname{Var}(Y - E[Y]) = \operatorname{Var}(Y)</span> is known we only need to find <span class="math inline">\operatorname{Cov}(X, Y)</span>. This can be estimated by Monte Carlo sampling of <span class="math inline">X</span> and <span class="math inline">Y</span>.</p>
+<h3 id="asian-option">Asian option</h3>
+<h3 id="importance-sampling">Importance Sampling</h3>
+<p><strong>Exercise</strong>. <em>Find the mean and variance of <span class="math inline">\log (\Pi_j S_{t_j})^{1/n}</span></em>.</p>
+<p><em>Hint</em>. <span class="math inline">(\Pi_j S_j)^{1/n} = fe^{(1/n)\sum_j σB_{t_j} - σ^2t_j/2}</span>.</p>
+<p><span class="math inline">\operatorname{Var}(\log (\Pi_j S_{t_j})^{1/n}) = (σ^2/n^2)\sum_{i,j} \min\{t_i,t_j\}</span>.</p>
+<p>The expected value of <span class="math inline">\max((\Pi_{j=1}^n S_{t_j})^{1/n} - k, 0\}</span> can be computed using the Black-Scholes formula.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">N</span> is normal with mean <span class="math inline">μ</span> and variance <span class="math inline">σ^2</span> show</em> <span class="math display"> E[\max\{e^N - a,0\}^2] = e^{2μ + 2σ^2} P(N > \log a - 2σ^2) - 2a e^{μ + σ^2/2} P(N > \log a - σ^2) + a^2P(N > \log a). </span></p>
+<p><em>Hint</em>. <span class="math inline">((e^N - a)^+)^2 = (e^{2N} - 2ae^N + a^2)1(e^N > a)</span>.</p>
+</body></html>

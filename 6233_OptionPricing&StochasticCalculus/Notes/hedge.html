@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Keith A. Lewis" />
+  <title>Hedging</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="math.css" />
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      fleqn: true
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Hedging</h1>
+<p class="author">Keith A. Lewis</p>
+</header>
+<p>Suppose a money-market account has price <span class="math inline">R_t</span> and a (non dividend paying) stock has price <span class="math inline">S_t</span> at time <span class="math inline">t</span>. Further suppose any amount of the money-market account and stock can be bought or sold at any time at the prevailing price. Consider the problem of hedging an European option that pays <span class="math inline">\nu(S_T)</span> at time <span class="math inline">T</span> for some payoff function <span class="math inline">\nu</span>.</p>
+<section id="black-scholesmerton" class="level2">
+<h2>Black-Scholes/Merton</h2>
+<p>If <span class="math inline">S_t</span> is assumed to follow geometric Brownian motion then Black, Scholes, and Merton showed the cost of the initial self-financing hedge is <span class="math inline">E[\nu(S_T)/R_T]</span>. Let <span class="math inline">M_t</span> and <span class="math inline">N_t</span> be the positions in the bond and stock respectively at time <span class="math inline">t</span>. The <em>value</em> of the position is <span class="math inline">V_t = M_t R_t + N_t S_t</span>, the amount one would receive if the position were liquidated at time <span class="math inline">t</span>. They proved <span class="math inline">V_t = E_t[\nu(S_T)R_t/R_T]</span> where <span class="math inline">E_t</span> is the conditional expectation at time <span class="math inline">t</span> where <span class="math inline">N_t = (d/dS_t)E_t[\nu(S_T)R_t/R_T]</span> and <span class="math inline">M_t = V_t - N_t/R_t</span>. In particular <span class="math inline">V_T = E_T[\nu(S_T)] = \nu(S_T)</span> so the hedge perfectly replicates the payoff. The value of the option is the cost of setting up the initial hedge <span class="math inline">V_0 = E[\nu(S_T)/R_T]</span>.</p>
+<p>The B-S/M model assumes <span class="math inline">R_t = e^{\rho t}</span> and <span class="math inline">S_t = S_0 R_t e^{\sigma B_t - \sigma^2t/2}</span> where <span class="math inline">\rho</span> is the risk-free interest rate, <span class="math inline">\sigma</span> is the volatility, and <span class="math inline">B_t</span> is standard Brownian motion. It is important to understand assumptions underlying models.</p>
+<p>The model can easily incorporate an interest rate <span class="math inline">\rho = \rho(t)</span> that is a function of time to fit the current yield curve. However, even if we assume constant volatility, the B-S/M model provides no guidance on what that volatility should be.</p>
+<p>After putting on an initial hedge traders must decide when and how much to adjust their hedge. The classical Black-Scholes/Merton theory also provides no guidance on this since it assumes the mathematical fiction of continuous time trading.</p>
+</section>
+<section id="discrete-hedging" class="level2">
+<h2>Discrete Hedging</h2>
+<p>We investigate the problem of finding an initial amount <span class="math inline">V_0</span> and trading strategy that “best” replicates <span class="math inline">\nu(S_T)</span> at time <span class="math inline">T</span>.</p>
+<section id="model" class="level3">
+<h3>Model</h3>
+<p>Assume a sample space <span class="math inline">\Omega</span> of all possible outcomes and an increasing sequence of algebras <span class="math inline">(\mathcal{A}_t)</span> on <span class="math inline">\Omega</span> representing information available at time <span class="math inline">t</span>. The bond and (non-dividend paying) stock prices are functions <span class="math inline">R_t, S_t\colon\Omega\to\boldsymbol{R}</span> that are measurable with respect to <span class="math inline">\mathcal{A}_t</span>. A stopping time <span class="math inline">\tau\colon\Omega\to[0,\infty)</span> satisfies the condition <span class="math inline">\{\tau\le t\}\subseteq\mathcal{A}_t</span> for all <span class="math inline">t</span>.</p>
+<p>A <em>trading strategy</em> is determined by stopping times <span class="math inline">\tau_0 &lt; \tau_1 &lt; \cdots &lt; \tau_n</span> and positions <span class="math inline">(M_j, N_j)</span> that are <span class="math inline">\tau_j</span> measurable. The <em>trading account</em> cash flow at <span class="math inline">\tau_0</span> is <span class="math inline">A_0 = -M_0R_{\tau_0} - N_0S_{\tau_0}</span> and <span class="math display">
+    A_j = - (M_j - M_{j-1})R_{\tau_j} - (N_j - N_{j-1}) S_{\tau_j}
+    = - (\nabla M_j) R_{\tau_j} - (\nabla N_j) S_{\tau_j}
+</span> at <span class="math inline">\tau_j</span>, <span class="math inline">0 &lt; j \le n</span>. To adjust the position <span class="math inline">M_{j-1}</span> at time <span class="math inline">\tau_{j-1}</span> to <span class="math inline">M_j</span> at time <span class="math inline">\tau_j</span> one must buy <span class="math inline">M_j - M_{j-1}</span> of the money market account at price <span class="math inline">R_{\tau_j}</span>, likewise for the stock.</p>
+<p>A trading strategy is <em>self-financing</em> if <span class="math inline">A_j = 0</span>, <span class="math inline">0 &lt; j &lt; n</span> and <em>closed-out</em> if <span class="math inline">M_n = N_n = 0</span>.</p>
+<section id="transaction-costs" class="level4">
+<h4>Transaction Costs</h4>
+<p>Note we can assume the sample space includes all possible hedging strategies. This allows us to include transaction costs by defining <span class="math inline">S_t</span> to be a function of transaction size.</p>
+<p>For example, if the transaction cost is proportional to trade size the price of <span class="math inline">N</span> shares of <span class="math inline">S</span> is <span class="math inline">S(1 + \epsilon N)</span> for some <span class="math inline">\epsilon &gt; 0</span>.</p>
+</section>
+</section>
+<section id="trading" class="level3">
+<h3>Trading</h3>
+<p>For a closed-out, self-financing strategy we only need to specifiy <span class="math inline">V_0</span>, <span class="math inline">0 = \tau_0 &lt; \cdots &lt; \tau_n = T</span>, and <span class="math inline">N_0</span>, , <span class="math inline">N_{n-1}</span>.</p>
+<p>The initial money-market position given <span class="math inline">N_0</span> is <span class="math inline">M_0 = V_0 - N_0 S_0</span>. Subsequent positions are determined by <span class="math inline">M_j - M_{j-1} = -(N_j - N_{j-1})S_j/R_j</span>. The final stock position is <span class="math inline">N_n = 0</span>.</p>
+<p>Note <span class="math inline">M_j = M_0 + \sum_{i=1}^j M_j - M_{j-1} = V_0 - N_0S_0 - \sum_{i=1}^j(N_j - N_{j-1})S_j/R_j</span>.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">M_j = V_0 + \sum_{i=0}^{j-1}N_i(S_{i+1}/R_{i+1} - S_i/R_i) - N_j S_{j-1}/R_{j-1}</span></em>.</p>
+<p>Assuming <span class="math inline">R_t = 1</span> for all <span class="math inline">t</span> we have <span class="math display">
+    V_j = M_j + N_j S_j = V_0 + \sum_{i=0}^j N_i(S_{i+1} - S_i)
+</span> If you can trade for free and hold <span class="math inline">N_i</span> at <span class="math inline">\tau_i</span> you make <span class="math inline">N_i(S_{i+1} - S_i)</span> over <span class="math inline">(\tau_i, \tau_{i+1}]</span>.</p>
+<!--
+$$
+\begin{aligned}
+V_{t + \Delta t} - V_t &= \Delta V_t \\
+    &= \Delta(M_t R_t + N_t S_t) \\
+    &= M_t \Delta R_t + \Delta M_t R_t + \Delta M_t \Delta R_t
+    + N_t \Delta S_t + \Delta N_t S_t+ \Delta N_t \Delta S_t \\
+    &= M_t \Delta R_t + N_t \Delta S_t 
+    + \Delta M_t(R_t + \Delta R_t)
+    + \Delta N_t(S_t + \Delta S_t) \\
+\end{aligned}
+$$
+
+The last two terms are the cost of adjusting the position at time $t + \Delta t$.
+
+## Hedging
+
+Suppose an European option pays $\nu(S_T)$ at time $T$.
+A perfect hedge is a self-financing closed-out trading strategy with $V_T = \nu(S_T)$.
+The value of the option is the cost of setting up the initial hedge $V_0 = M_0R_0 + N_0N_0$.
+
+It is almost never the case that a perfect hedge exists and there is
+no canonical measure of how good the hedge is.  The parameters at
+our disposal are $n$, the stopping times $(\tau_j)_{0 < j < n}$, $V_0$,
+and $(N_j)_{0\le j < n}$ with the constraints
+$0 = \tau_0 < \tau_1 < \cdots < \tau_n = T$.
+The bond positions are determined by the self-financing constraints
+$0 = (M_j - M_{j-1})R_{\tau_j} + (N_j - N_{j-1}) S_{\tau_j}$, $0 < j < n$.
+
+We assume a loss function of the form $L(\tau_1,\ldots,\tau_{n - 1}, M_0, N_0, \ldots, N_{n-1})$
+that we endeavour to minimize.
+
+One possible loss function is $L = \|V_T - \nu(S_T)\|_\infty$.
+If we assume a positive measure on $\Omega$ we
+could also consider the mean-square error $L = \|V_T - \nu(S_T)\|_2$.
+
+ $R_t$         $S_t$        $M_t$                      $N_t$           $V_t$              $A_t$
+----------    -------      -------                    -------        --------            -------
+$R_0$         $S_0$        $V_0 + M_0$                $N_0$          $M_0R_0 + N_0S_0$   $-M_0 R_0 - N_0 S_0$
+$R_1$         $S_1$        $M_0 - \nabla N_1 S_1/R_1$ $N_1$          $-M_0R_0 - N_0S_0$  $0$
+
+
+-->
+</section>
+</section>
+</body>
+</html>

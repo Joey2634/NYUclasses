@@ -1,6 +1,0 @@
-$ mkdir HelloWorld				# For create folder/directory HelloWorld
-$ cd HelloWorld/				# Goto directory HelloWorld
-$ g++ HelloWorld.cpp 				# Build the executable for HelloWorld.cpp, called a.out
-$ ls						# List all the files in current directory
-$ ./a.out 					# Run the executable for HelloWorld
-$ history					# Show all the commands you used

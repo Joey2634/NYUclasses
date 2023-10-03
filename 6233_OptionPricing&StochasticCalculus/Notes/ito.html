@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang=""><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Keith A. Lewis">
+  <title>Ito Processes</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="math.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+   var mathElements = document.getElementsByClassName("math");
+   var macros = [];
+   for (var i = 0; i < mathElements.length; i++) {
+    var texText = mathElements[i].firstChild;
+    if (mathElements[i].tagName == "SPAN") {
+     katex.render(texText.data, mathElements[i], {
+      displayMode: mathElements[i].classList.contains('display'),
+      throwOnError: false,
+      macros: macros,
+      fleqn: true
+     });
+  }}});
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.18/dist/katex.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<html><head></head><body><header id="title-block-header">
+<h1 class="title">Ito Processes</h1>
+<p class="author">Keith A. Lewis</p>
+</header>
+<p>A large class of <a href="sp.html">stochastic processes</a> can be defined using standard <a href="bm.html">Brownian motion</a> <span class="math inline">(B_t)_{t\ge 0}</span>.</p>
+<p>The <em>stochastic differential equation</em> <span class="math display"> dX = \mu\,dt + \sigma\,dB, X_{t_0} = x_0 </span> is shorthand for <span class="math display"> X_t = x_0 + \int_{t_0}^t \mu\,ds + \int_{t_0}^t \sigma\,dB_s, </span> where the first integral is Riemann and the second is the <em>Ito integral</em>.</p>
+<section id="ito-integral" class="level2">
+<h2>Ito Integral</h2>
+<p>Recall that Brownian motion is a function <span class="math inline">B_t\colon\Omega\to\boldsymbol{R}</span> where <span class="math inline">B_t(\omega) = \omega(t)</span> for <span class="math inline">\omega\in\Omega = C[0,\infty)</span>, the space of continuous function from <span class="math inline">[0,\infty)</span> to the real numbers <span class="math inline">\boldsymbol{R}</span>. The information available at time <span class="math inline">t</span> is specified by <span class="math inline">\mathcal{F}_t</span>, the smallest <span class="math inline">\sigma</span>-algebra for which <span class="math inline">(B_s)_{0\le s\le t}</span> are measurable.</p>
+<p>If <span class="math inline">\omega\mapsto\sigma(t, \omega)</span> is <span class="math inline">\mathcal{F}_t</span> measurable (only depends on the information available at time <span class="math inline">t</span>) then so is the Ito integral <span class="math inline">\int_0^t \sigma(s, \omega)\,dB_s(\omega)</span> defined as a limit <span class="math display"> \int_0^t \sigma(s, \omega)\,dB_s(\omega) = \lim_{\Delta T\to 0} \sum_{0\le j &lt; n} \sigma(t_j, \omega)\,\Delta B_j(\omega) </span> where <span class="math inline">0 = t_0 &lt; \cdots &lt; t_n = t</span> is a partition of <span class="math inline">[0,t]</span> and <span class="math inline">\Delta B_j = B_{t_{j+1}} - B_{t_j}</span>. We let <span class="math inline">T = \{t_j\}</span> denote the partition and define <span class="math inline">\Delta T = \max_{0\le j &lt; n}\{\Delta t_j\}</span>. The set of all partitions of <span class="math inline">[0,t]</span> is a <a href="https://en.wikipedia.org/wiki/Net_(mathematics)">net</a> and the limit is defined as described therein.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">E[\sum_{0\le j &lt; n} B_{t_j}\Delta B_j] = 0</span> for any partition <span class="math inline">0 = t_0 &lt; \cdots &lt; t_n = t</span> of <span class="math inline">[0,t]</span></em>.</p>
+<p>This shows <span class="math inline">E[\int_0^t B_s\,dB_s] = 0</span>.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">E[\sum_{0\le j &lt; n} B_{t_{j+1}}\Delta B_j] = t \not= 0</span></em>.</p>
+<p><em>Hint</em>: <span class="math inline">E[B_t B_u] = \min\{t, u\}</span>.</p>
+<p>The Riemann integral <span class="math inline">\int_0^t f(s)\,ds = \lim_{\Delta T\to 0} \sum_j f(t_j^*)\Delta t_j</span> converges to the same value if <span class="math inline">f</span> is continuous and <span class="math inline">t_j^*</span> is <em>any</em> point in <span class="math inline">[t_j, t_{j+1}]</span>. Unlike the Riemann integral, the Ito integral requires the left endpoint be used.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">E[\sum_{0\le j &lt; n} (\Delta B_j)^2] = t</span> for any partition</em>.</p>
+<p><em>Hint</em>: <span class="math inline">E[(\Delta B)^2] = \Delta t</span>.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">\lim_{\Delta T\to 0}\sum_{0\le j &lt; n} (\Delta t_j)^2 = 0</span></em>.</p>
+<p><em>Hint</em>: <span class="math inline">\sum_j (\Delta t_j)^2 \le (\max_j \Delta t_j) \sum_j \Delta t_j = (\max_j \Delta t_j)t</span>.</p>
+<p>Shorthand notation for this is <span class="math inline">(dt)^2 = 0</span>.</p>
+<p><strong>Exercise</strong> <em>Show <span class="math inline">\lim_{\Delta T\to 0}\operatorname{Var}[\sum_{0\le j &lt; n} (\Delta B_j)^2] = 0</span></em>.</p>
+<p><em>Hint</em>: <span class="math inline">E[(\Delta B)^4] = 3(\Delta t)^2</span>.</p>
+<p>Although <span class="math inline">\sum_{0\le j &lt; n} (\Delta B_j)^2</span> is random for any given partition, it always has expected value <span class="math inline">t</span> and its variance tends to 0 as the partition gets finer. Shorthand notation for this is <span class="math inline">(dB)^2 = dt</span>.</p>
+<p><strong>Exercise</strong> <em>Show <span class="math inline">\sum_{0\le j &lt; n} \Delta B_j \Delta t_j</span> has mean 0 and its variance tends to 0 as <span class="math inline">\Delta T\to 0</span></em>.</p>
+<p>Shorthand notation for this is <span class="math inline">dB dt = 0</span>.</p>
+</section>
+<section id="ito-process" class="level2">
+<h2>Ito process</h2>
+<p>An Ito process <span class="math inline">X_t(\omega)</span> satisfies the SDE <span class="math display"> dX_t(\omega) = \mu(t,\omega)\,dt + \sigma(t,\omega)\,dB_t(\omega), X_{t_0} = x. </span> where <span class="math inline">\mu,\sigma:[0,\infty)\times\Omega\to\boldsymbol{R}</span> are functions of time and the Brownian sample path <span class="math inline">\omega\in\Omega = C[0,\infty)</span>. If <span class="math inline">\omega\mapsto \mu(t, \omega)</span> is <span class="math inline">\mathcal{F}_t</span> measurable for all <span class="math inline">t</span> then so is the Riemann integral <span class="math inline">\omega\mapsto \int_0^t \mu(s, \omega)\,ds</span>. If <span class="math inline">\omega\mapsto \sigma(t, \omega)</span> is <span class="math inline">\mathcal{F}_t</span> measurable for all <span class="math inline">t</span> then so is the Ito integral <span class="math inline">\omega\mapsto \int_0^t \sigma(s, \omega)\,dB_s(\omega)</span>.</p>
+<p><strong>Exercise</strong>. <em>In this case the Ito integral <span class="math inline">\int_0^t \sigma dB</span> is a martingale.</em></p>
+</section>
+<section id="ito-diffusion" class="level2">
+<h2>Ito Diffusion</h2>
+<p>An <em>Ito diffusion</em> <span class="math inline">X_t(\omega)</span> satisfies <span class="math display"> dX_t(\omega) = \bar{\mu}(t,X_t(\omega))\,dt + \bar{\sigma}(t,X_t(\omega))\,dB_t(\omega), X_{t_0} = x </span> where <span class="math inline">\bar{\mu},\bar{\sigma}\colon [0,\infty)\times\boldsymbol{R}\to\boldsymbol{R}</span>. Ito diffusions are <em>Markov processes</em>, <span class="math inline">E[f(t, X_t)\mid\mathcal{F}_t] = E[f(t, X_t)\mid X_t]</span>. The conditional expectation does not depend on the trajectory <span class="math inline">s\mapsto X_s(\omega)</span>, <span class="math inline">0\le s\le t</span>, it only depends on the final value <span class="math inline">X_t(\omega)</span>.</p>
+</section>
+<section id="ito-formula" class="level2">
+<h2>Ito Formula</h2>
+<p>If <span class="math inline">X_t</span> is an Ito diffusion and <span class="math inline">f\colon[0,\infty)\times\boldsymbol{R}\to\boldsymbol{R}</span> then <span class="math inline">Y_t = f(t, X_t)</span> is also an Ito diffusion satisfying the SDE <span class="math display"> dY_t = f_t(t, X_t)\,dt + f_x(t, X_t)\,dX_t + \frac{1}{2} f_{xx}(t, X_t) (dX_t)^2 </span> If <span class="math inline">X_t = B_t</span> is standard Brownian motion then <span class="math inline">dY_t = (f_t + \frac{1}{2}f_{xx})\,dt + f_x\,dB</span>.</p>
+<p><strong>Exercise</strong>. <em>If <span class="math inline">f_t + \frac{1}{2}f_{xx} = 0</span> then <span class="math inline">f(t,B_t)</span> is a martingale</em>.</p>
+<p><strong>Exercise</strong>. <em>Show <span class="math inline">f(t, x) = x^2 - t</span> and <span class="math inline">f(t, x) = se^{\sigma x - \sigma^2t/2}</span> satisfy <span class="math inline">f_t + \frac{1}{2}f_{xx} = 0</span></em>.</p>
+</section></body></html>
+</body></html>
